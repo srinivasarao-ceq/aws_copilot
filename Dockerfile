@@ -1,10 +1,14 @@
-FROM maven as maven
-RUN mkdir /usr/src/mymaven
-WORKDIR /usr/src/mymaven
-COPY . .
-RUN mvn install -DskipTests
+FROM python:3.9.13-alpine3.14
 
-FROM tomcat 
-WORKDIR webapps 
-COPY --from=maven /usr/src/mymaven/target/java-tomcat-maven-example.war .
-RUN rm -rf ROOT && mv java-tomcat-maven-example.war ROOT.war
+WORKDIR /usr/src/app
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN pip install --upgrade pip 
+COPY . /usr/src/app
+RUN pip install -r requirements.txt
+
+EXPOSE 8000
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
