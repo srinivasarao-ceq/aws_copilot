@@ -1,10 +1,10 @@
-FROM node:alpine as build 
-WORKDIR /app
-COPY package*.json ./
-RUN npm install 
+FROM maven as maven
+RUN mkdir /usr/src/mymaven
+WORKDIR /usr/src/mymaven
 COPY . .
-RUN npm run build
+RUN mvn install -DskipTests
 
-FROM nginx 
-EXPOSE 80
-COPY --from=build /app/build /usr/share/nginx/html
+FROM tomcat 
+WORKDIR webapps 
+COPY --from=maven /usr/src/mymaven/target/java-tomcat-maven-example.war .
+RUN rm -rf ROOT && mv java-tomcat-maven-example.war ROOT.war
