@@ -1,7 +1,8 @@
-FROM python:3.10.0-alpine3.15
+FROM python:3.8.3-slim-buster
 WORKDIR /app
-COPY requirements.txt requirements.txt
+COPY app.py /app
+COPY index.html /app 
+COPY requirements.txt /app
 RUN pip install -r requirements.txt
-COPY . /app
-EXPOSE 8000
-ENTRYPOINT ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+EXPOSE 9090
+CMD [ "python", "app.py"]
