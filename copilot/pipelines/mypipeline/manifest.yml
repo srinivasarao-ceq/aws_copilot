@@ -1,9 +1,9 @@
-# The manifest for the "hello-pipeline" pipeline.
+# The manifest for the "mypipeline" pipeline.
 # This YAML file defines your pipeline: the source repository it tracks and the order of the environments to deploy to.
 # For more info: https://aws.github.io/copilot-cli/docs/manifest/pipeline/
 
 # The name of the pipeline.
-name: hello-pipeline
+name: mypipeline
 
 # The version of the schema used in this template.
 version: 1
@@ -24,11 +24,6 @@ source:
 stages:
   - # The name of the environment.
     name: test
-    deployments:
-      deploy-env:
-        template_path: infrastructure/test.env.yml
-        template_config: infrastructure/test.env.params.json
-        stack_name: hello-app-test
     # Optional: flag for manual approval action before deployment.
     # requires_approval: true
     # Optional: use test commands to validate this stage of your build.
